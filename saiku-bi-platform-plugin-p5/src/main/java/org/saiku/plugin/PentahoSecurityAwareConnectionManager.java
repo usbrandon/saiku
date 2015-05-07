@@ -91,12 +91,12 @@ public class PentahoSecurityAwareConnectionManager extends AbstractConnectionMan
                 OlapConnection olapConnection = olapService.getConnection(name, PentahoSessionHolder.getSession());
                 
                 olapConnection.setCatalog(name);
-                
-                Set<String> cats = olapConnection.getOlapCatalogs().asMap().keySet();
-                cats.remove(name);
-                for (String cat : cats) {
-                	olapConnection.getOlapCatalogs().remove(cat);
-                }
+
+                //Set<String> cats = olapConnection.getOlapCatalogs().asMap().keySet();
+                //  cats.remove(name);
+                //for (String cat : cats) {
+                //	olapConnection.getOlapCatalogs().remove(cat);
+                //}
                 
                 con = new SaikuReadyOlapConnection(name, olapConnection);
                 System.out.println("Debugging: Fetching connection: " + name + " id: " + olapConnection + " initialized: " + (con != null));
