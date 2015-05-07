@@ -22,7 +22,7 @@
 
 <bean id="contentAccessFactory" scope="prototype" class="pt.webdetails.cpf.PentahoPluginEnvironment" />  
 
-	<bean id="pentahoDsManager" class="org.saiku.plugin.PentahoDatasourceManager">
+	<bean id="pentahoDsManager" class="org.saiku.plugin.PentahoDatasourceManagerNew">
 		<property name="datasourceResolverClass" value="org.saiku.plugin.PentahoDataSourceResolver" />
 		<!-- <property name="dynamicSchemaProcessor" value="mondrian.i18n.LocalizingDynamicSchemaProcessor" /> -->
 	</bean>
