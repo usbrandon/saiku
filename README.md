@@ -2,7 +2,10 @@ SAIKU
 ---------------
 *BUILDING*
 
-mvn clean install -DskipTest
+Updated: May 7, 2015
+REQUIRES: Maven 3.X (previous versions will succeed for some parts and the build will fail on others).
+
+mvn clean install -DskipTest=true
 
 
 *Issue Tracker: http://jira.meteorite.bi*
