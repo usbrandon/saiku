@@ -78,10 +78,11 @@
 								</artifactItem>
 
 								<artifactItem>
-                                        <groupId>org.jvnet.mimepull</groupId>
+                                       				<groupId>org.jvnet.mimepull</groupId>
   									<artifactId>mimepull</artifactId>
 									<outputDirectory>target/dist/saiku/lib</outputDirectory>
 								</artifactItem>
+								<!-- Interfere with Pentaho 5.3 EE so exclude them.
 								<artifactItem>
 									<groupId>pentaho</groupId>
 									<artifactId>mondrian</artifactId>
@@ -113,6 +114,7 @@
 									<artifactId>eigenbase-xom</artifactId>
 									<outputDirectory>target/dist/saiku/lib</outputDirectory>
 								</artifactItem>
+								-->
 								<artifactItem>
 									<groupId>commons-lang</groupId>
 									<artifactId>commons-lang</artifactId>
