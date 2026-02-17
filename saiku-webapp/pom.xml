@@ -210,7 +210,7 @@
             <artifactId>saiku-olap-util</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.saiku</groupId>
+            <groupId>com.github.pstoellberger</groupId>
             <artifactId>saiku-query</artifactId>
         </dependency>
         <dependency>

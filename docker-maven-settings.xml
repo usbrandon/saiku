@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <!-- Mirror configuration - redirect broken HTTP repos but allow JitPack -->
+    <mirrors>
+        <!-- Mirror central to HTTPS version -->
+        <mirror>
+            <id>central-secure</id>
+            <mirrorOf>central</mirrorOf>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </mirror>
+        <!-- Override Maven 3.9+ default HTTP blocker: redirect HTTP repos to Central
+             instead of failing. Many old transitive dependency POMs declare HTTP repos. -->
+        <mirror>
+            <id>maven-default-http-blocker</id>
+            <mirrorOf>external:http:*</mirrorOf>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </mirror>
+    </mirrors>
+
+    <profiles>
+        <profile>
+            <id>saiku-build</id>
+            <repositories>
+                <!-- Maven Central ONLY for now -->
+                <repository>
+                    <id>central</id>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>false</enabled></snapshots>
+                </repository>
+
+                <!-- Apache snapshots for Calcite -->
+                <repository>
+                    <id>apache-snapshots</id>
+                    <url>https://repository.apache.org/content/repositories/snapshots/</url>
+                    <releases><enabled>false</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                </repository>
+
+                <!-- Atlassian for JIRA client -->
+                <repository>
+                    <id>atlassian-public</id>
+                    <url>https://packages.atlassian.com/maven-public/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                </repository>
+
+                <!-- Clojars -->
+                <repository>
+                    <id>clojars</id>
+                    <url>https://repo.clojars.org/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>false</enabled></snapshots>
+                </repository>
+
+                <!-- JBoss/RedHat for older artifacts -->
+                <repository>
+                    <id>jboss-public</id>
+                    <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>false</enabled></snapshots>
+                </repository>
+
+                <!-- Conjars for eigenbase artifacts -->
+                <repository>
+                    <id>conjars</id>
+                    <url>https://conjars.wensel.net/repo/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>false</enabled></snapshots>
+                </repository>
+
+                <!-- JitPack for building from GitHub (Mondrian, olap4j, etc) -->
+                <repository>
+                    <id>jitpack.io</id>
+                    <url>https://jitpack.io</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                </repository>
+            </repositories>
+
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>false</enabled></snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>saiku-build</activeProfile>
+    </activeProfiles>
+
+</settings>

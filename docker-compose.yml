@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # Build-only container for development
+  build:
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+      target: builder
+    volumes:
+      # Mount local Maven cache to speed up rebuilds
+      - maven-cache:/root/.m2/repository
+      # Mount source for development
+      - .:/build:ro
+      # Output artifacts
+      - ./docker-output:/output
+    command: >
+      bash -c "mvn clean package -DskipTests -B -e &&
+               cp -r saiku-server/target/saiku-server-* /output/ 2>/dev/null || true"
+
+  # Runtime container
+  saiku:
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+    ports:
+      - "8080:8080"
+    volumes:
+      - saiku-data:/saiku/saiku-server/data
+    restart: unless-stopped
+
+volumes:
+  maven-cache:
+  saiku-data:

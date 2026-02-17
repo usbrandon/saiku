@@ -38,6 +38,7 @@
                     <argLine>-Xmx512m</argLine>
                 </configuration>
             </plugin>
+            <!-- Disabled: mondrian-data-foodmart-hsql not available from any repo
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -62,6 +63,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -75,6 +77,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Disabled: foodmart test data setup - dependencies not available
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -94,30 +97,12 @@
                                         <include name="mondrian-data*.jar" />
                                     </fileset>
                                 </unzip>
-                                <echo message="Unzipped!" />
-                                <unzip dest="target/test/">
-                                    <fileset dir="${basedir}/../../util/">
-                                        <include name="foodmart_hsql.script.zip" />
-                                    </fileset>
-                                </unzip>
-                                <copy todir="target/test/foodmart/">
-                                    <fileset dir="${basedir}/../../util/">
-                                        <include name="FoodMart.xml" />
-                                    </fileset>
-                                </copy>
->>>>>>> tag-3.16.1
-
-								<copy todir="target/test-classes/org/saiku/" overwrite="true">
-									<fileset dir="target/test/">
-										<include name="foodmart_hsql.script" />
-									</fileset>
-								</copy>
-
-							</tasks>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -150,7 +135,7 @@
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.saiku</groupId>
+			<groupId>com.github.pstoellberger</groupId>
 			<artifactId>saiku-query</artifactId>
 		</dependency>
 		<dependency>
@@ -379,19 +364,22 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
-		<!-- MarkLogic dependency -->
+		<!-- MarkLogic dependency - disabled (repository no longer available)
+		     To re-enable: find marklogic-xcc jar and install manually
 		<dependency>
 			<groupId>com.marklogic</groupId>
 			<artifactId>marklogic-xcc</artifactId>
 			<version>8.0.6</version>
 		</dependency>
+		-->
 	</dependencies>
+	<!-- MarkLogic repository disabled - no longer available
 	<repositories>
-		<!-- MarkLogic repository -->
 		<repository>
 			<id>MarkLogic-releases</id>
 			<name>MarkLogic Releases</name>
 			<url>http://developer.marklogic.com/maven2</url>
 		</repository>
 	</repositories>
+	-->
 </project>

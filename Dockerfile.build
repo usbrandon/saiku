@@ -1,0 +1,62 @@
+# Multi-stage Dockerfile for building Saiku
+# Note: Using platform for Apple Silicon compatibility
+
+FROM --platform=linux/amd64 maven:3.6.3-amazoncorretto-8 AS builder
+
+# Note: Node.js installation skipped to avoid Debian Buster archive issues
+# UI build may fail, but core Java modules should compile
+
+WORKDIR /build
+
+# Create directory for missing dependencies
+RUN mkdir -p /deps
+
+# Download Mondrian 4.7 from SourceForge (Saiku depends on 4.x series)
+RUN curl -L -o /deps/mondrian.jar \
+    "https://downloads.sourceforge.net/project/mondrian/mondrian/mondrian-4.7.0/mondrian-4.7.0.0-12.jar"
+
+# Install Mondrian to local Maven repo
+RUN mvn install:install-file \
+    -Dfile=/deps/mondrian.jar \
+    -DgroupId=pentaho \
+    -DartifactId=mondrian \
+    -Dversion=4.7.0.0-12 \
+    -Dpackaging=jar \
+    -DgeneratePom=true
+
+# Copy Maven settings with working repositories
+COPY docker-maven-settings.xml /root/.m2/settings.xml
+
+# Copy pom files first for dependency caching
+COPY pom.xml .
+COPY saiku-core/pom.xml saiku-core/
+COPY saiku-core/saiku-license-stub/pom.xml saiku-core/saiku-license-stub/
+COPY saiku-core/saiku-olap-util/pom.xml saiku-core/saiku-olap-util/
+COPY saiku-core/saiku-service/pom.xml saiku-core/saiku-service/
+COPY saiku-core/saiku-web/pom.xml saiku-core/saiku-web/
+COPY saiku-ui/pom.xml saiku-ui/
+COPY saiku-webapp/pom.xml saiku-webapp/
+COPY saiku-server/pom.xml saiku-server/
+
+# Copy full source
+COPY . .
+
+# Build the project
+RUN mvn clean package -DskipTests -B -e
+
+# Stage 2: Runtime image
+FROM --platform=linux/amd64 eclipse-temurin:8-jre AS runtime
+
+WORKDIR /saiku
+
+# Copy built artifacts
+COPY --from=builder /build/saiku-server/target/saiku-server-* /saiku/
+
+RUN apt-get update && apt-get install -y unzip && \
+    unzip /saiku/saiku-server-*.zip -d /saiku/ 2>/dev/null || true && \
+    rm -f /saiku/*.zip && \
+    chmod +x /saiku/saiku-server/start-saiku.sh 2>/dev/null || true
+
+EXPOSE 8080
+
+CMD ["/saiku/saiku-server/start-saiku.sh"]

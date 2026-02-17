@@ -18,7 +18,7 @@
 				<plugin>
 					<groupId>com.samaxes.maven</groupId>
 					<artifactId>minify-maven-plugin</artifactId>
-					<version>1.7.4-modify</version>
+					<version>1.7.4</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -26,7 +26,14 @@
 			<plugin>
 				<groupId>com.samaxes.maven</groupId>
 				<artifactId>minify-maven-plugin</artifactId>
-				<version>1.7.4-modify</version>
+				<version>1.7.4</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.plexus</groupId>
+						<artifactId>plexus-utils</artifactId>
+						<version>3.5.1</version>
+					</dependency>
+				</dependencies>
 				<executions>
 				<execution>
 				<id>default-minify</id>
@@ -293,21 +300,5 @@
 
 		</plugins>
 	</build>
-     <repositories>
-        <repository>
-            <id>jsdoctk1</id>
-            <url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>jsdoctk2</id>
-            <url>http://jsdoctk-plugin.googlecode.com/svn/repo</url>
-        </pluginRepository>
-        <pluginRepository>
-            <name>oss.sonatype.org</name>
-            <id>oss.sonatype.org</id>
-            <url>http://oss.sonatype.org/content/groups/public</url>
-        </pluginRepository>
-    </pluginRepositories>
+     <!-- Dead repos removed (jsdoctk googlecode, oss.sonatype HTTP) - using parent repos -->
 </project>

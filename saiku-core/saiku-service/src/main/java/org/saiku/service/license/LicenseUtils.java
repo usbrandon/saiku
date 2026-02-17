@@ -84,24 +84,31 @@ public class LicenseUtils implements ILicenseUtils {
   public Object getLicense()
       throws IOException, ClassNotFoundException, RepositoryException {
 
-    String file = this.repositoryDatasourceManager
-        .getInternalFileData("/etc/license.lic");
+    try {
+      String file = this.repositoryDatasourceManager
+          .getInternalFileData("/etc/license.lic");
 
-    Object obj = null;
-    byte[] b = Base64Coder.decode(file);
+      if (file != null && !file.isEmpty()) {
+        byte[] b = Base64Coder.decode(file);
 
-    try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(
-        b))) {
-      Object license = null;
-      try {
-        license = in.readObject();
-      } catch (ClassNotFoundException e) {
-        log.debug("license not read from stream");
+        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(b))) {
+          Object license = null;
+          try {
+            license = in.readObject();
+          } catch (ClassNotFoundException e) {
+            log.debug("license not read from stream");
+          }
+          if (license != null) {
+            return license;
+          }
+        }
       }
-      return license;
+    } catch (Exception e) {
+      log.debug("No license file found, using default community license");
     }
 
-
+    // Return default community license when no license file exists
+    return new SaikuLicense2();
   }
 
   @Override

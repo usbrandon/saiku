@@ -12,6 +12,8 @@
     <version>3.17</version>
 
     <modules>
+        <!-- License stub must be built first as saiku-service depends on it -->
+        <module>saiku-license-stub</module>
         <module>saiku-olap-util</module>
         <module>saiku-service</module>
         <module>saiku-web</module>

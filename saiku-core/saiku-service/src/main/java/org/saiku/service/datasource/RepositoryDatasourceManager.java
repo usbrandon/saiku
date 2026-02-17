@@ -102,9 +102,12 @@ public class RepositoryDatasourceManager implements IDatasourceManager, Applicat
     public void load() {
         Properties ext = checkForExternalDataSourceProperties();
 
-        // Instantiate the appropriate repository manager 
+        // Instantiate the appropriate repository manager
         if (type.equals("marklogic")) {
-            irm = MarkLogicRepositoryManager.getMarkLogicRepositoryManager(host, Integer.parseInt(port), username, password, database, cleanse(datadir), sessionRegistry, workspaces);
+            // MarkLogic support disabled - dependency not available
+            throw new RuntimeException("MarkLogic repository type is not available. " +
+                "The marklogic-xcc dependency is not included in this build. " +
+                "Please use 'jackrabbit' or 'classpath' repository type instead.");
         } else if (type.equals("classpath")) {
             separator = "/";
             log.debug("init datadir= "+datadir);
